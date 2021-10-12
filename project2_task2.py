@@ -24,15 +24,15 @@ def main():
     print(pixel)
     rows = len(img[0])
     col = len(img)
-    task2Helper(rows,col,img)
+    decryptedImg = task2Helper(rows,col,img)
     
-def task2Helper(row,cols,img):
+def task2Helper(rows,cols,img):
     keyString = input("Enter the initial key string: ")
     keyLength = len(keyString)
     keyArray = KeyGen(rows,cols,keyLength)
     print(keyArray)
     decryptedImg = XorCypher(rows,cols,img,keyArray)
-    
+    return decryptedImg
     
     
 def KeyGen(rows,cols,keyLength):
