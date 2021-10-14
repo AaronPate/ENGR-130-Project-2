@@ -11,21 +11,24 @@ def main():
     
     image = input("Enter the name of a color image file: ")
     img = mat.imread(image)
+    mat.imshow(img)
     pixel = []
     print(f"{len(img[0])} x {len(img)}")
     for i in range(0, len(img)):
         temp = []
         for j in range(0, len(img[0])):
-            pr = int(img[j,i,0] * 255)
-            pg = int(img[j,i,1] * 255)
-            pb = int(img[j,i,2] * 255)
+            pr = int(img[i,j,0] * 255)
+            pg = int(img[i,j,1] * 255)
+            pb = int(img[i,j,2] * 255)
             temp.append([pr,pg,pb])
         pixel.append(temp)
-    print(pixel)
+    #print(pixel)
     rows = len(img[0])
     col = len(img)
-    decryptedImg = task2Helper(rows,col,img)
-    
+    decryptedImg = task2Helper(rows,col,pixel)
+    mat.imshow(decryptedImg)
+    return
+
 def task2Helper(rows,cols,img):
     keyString = input("Enter the initial key string: ")
     keyLength = len(keyString)
@@ -36,20 +39,25 @@ def task2Helper(rows,cols,img):
     
     
 def KeyGen(rows,cols,keyLength):
-    key = [rows][cols]
-    for i in len(0,rows):
-        for j in len(0,cols):
+    key = []
+    for i in range(0,rows):
+        temp = []
+        for j in range(0,cols):
             a = (i * j) % keyLength
-            key[i][j] = m.pow(a,m.pow(2,8) / keyLength)
+            temp.append(m.pow(a,m.pow(2,8) // keyLength))
+        key.append(temp)
     return key
 
 def XorCypher(rows,col,img,key):
-    decrypted = [rows][col][2]
-    for i in len(0,rows):
-        for j in len(0,col):
-            decrypted[i][j][0] = img[i][j][0] ^ key[i][j]
-            decrypted[i][j][1] = img[i][j][1] ^ key[i][j]
-            decrypted[i][j][2] = img[i][j][2] ^ key[i][j]
+    decrypted = []
+    for i in range(0,rows):
+        temp = []
+        for j in range(0,col):
+            dr = int(img[i][j][0]) ^ int(key[i][j])
+            dg = int(img[i][j][1]) ^ int(key[i][j])
+            db = int(img[i][j][2]) ^ int(key[i][j])
+            temp.append([dr,dg,db])
+        decrypted.append(temp)
     return decrypted
     
 if __name__ == '__main__':
